@@ -30,9 +30,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     EditText id1, id2;
-    Button get,post;
+    Button get,post, emit;
     RequestQueue queue;
-    String url ="http://192.168.1.102:8000/";
+    String url ="http://192.168.1.101:8000/";
 
 
     private Socket mSocket;
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         id2 = findViewById(R.id.id2);
         get = findViewById(R.id.get);
         post = findViewById(R.id.post);
+        emit = findViewById(R.id.emit);
         queue = Volley.newRequestQueue(MainActivity.this);
         mSocket.connect();
         post.setOnClickListener(new View.OnClickListener() {
@@ -84,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public byte[] getBody() throws AuthFailureError {
                         HashMap<String, String> params2 = new HashMap<String, String>();
-                        params2.put("name", "Val");
-                        params2.put("subject", "Test Subject");
+                        params2.put("name", id1.getText().toString());
+                        params2.put("message", id2.getText().toString());
                         return new JSONObject(params2).toString().getBytes();
                     }
                 };
@@ -109,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 queue.add(stringRequest);
+            }
+        });
+
+        emit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSocket.emit("new Message", id2.getText().toString());
             }
         });
     }

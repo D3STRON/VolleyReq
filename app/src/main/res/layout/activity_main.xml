@@ -29,5 +29,10 @@
         android:text="POST"
         android:id="@+id/post"
         />
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/emit"
+        android:text="EMIT"
+        />
 </LinearLayout>
